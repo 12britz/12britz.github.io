@@ -3,417 +3,419 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>12britz — Developer Portfolio</title>
+    <title>12BRITZ // SYSTEM_CORE</title>
     <style>
         :root {
-            --bg: #000000;
-            --card-bg: #1c1c1e;
-            --text-primary: #f5f5f7;
-            --text-secondary: #86868b;
-            --accent: #0071e3;
-            --card-hover: #2c2c2e;
+            --bg: #050505;
+            --panel: #0d0d0f;
+            --border: #1f1f23;
+            --accent: #4ade80; /* Terminal Green */
+            --accent-muted: rgba(74, 222, 128, 0.1);
+            --text-high: #ffffff;
+            --text-mid: #a1a1aa;
+            --text-low: #3f3f46;
+            --mono: 'JetBrains Mono', 'Fira Code', 'SF Mono', monospace;
         }
 
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            -webkit-font-smoothing: antialiased;
+            cursor: crosshair;
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", "Helvetica Neue", sans-serif;
+            font-family: var(--mono);
             background-color: var(--bg);
-            color: var(--text-primary);
-            line-height: 1.1;
+            color: var(--text-mid);
+            font-size: 13px;
+            line-height: 1.5;
             overflow-x: hidden;
+            background-image: 
+                radial-gradient(circle at 2px 2px, var(--border) 1px, transparent 0);
+            background-size: 32px 32px;
+        }
+
+        /* --- Scanline Effect --- */
+        body::before {
+            content: "";
+            display: block;
+            position: fixed;
+            top: 0; left: 0; bottom: 0; right: 0;
+            background: linear-gradient(
+                        rgba(18, 16, 16, 0) 50%,
+                        rgba(0, 0, 0, 0.25) 50%), 
+                        linear-gradient(90deg, rgba(255, 0, 0, 0.03), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.03));
+            z-index: 2000;
+            background-size: 100% 2px, 3px 100%;
+            pointer-events: none;
         }
 
         .container {
-            max-width: 1080px;
+            max-width: 1200px;
             margin: 0 auto;
-            padding: 0 20px;
+            padding: 40px 20px;
         }
 
-        /* --- Hero Section --- */
-        header {
-            padding: 140px 0 80px;
-            text-align: center;
-            opacity: 0;
-            transform: translateY(20px);
-            animation: appleFadeIn 1s cubic-bezier(0.4, 0, 0.2, 1) forwards;
-        }
-
-        .profile-img {
-            width: 120px;
-            height: 120px;
-            border-radius: 26px; /* Apple Squircle-ish */
-            margin-bottom: 30px;
-            object-fit: cover;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
-        }
-
-        h1 {
-            font-size: clamp(40px, 8vw, 72px);
-            font-weight: 700;
-            letter-spacing: -0.02em;
-            margin-bottom: 16px;
-            background: linear-gradient(180deg, #fff 0%, #a1a1a6 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .subtitle {
-            font-size: clamp(18px, 4vw, 24px);
-            color: var(--text-secondary);
-            font-weight: 500;
-            max-width: 600px;
-            margin: 0 auto 40px;
-            line-height: 1.3;
-        }
-
-        .stats-row {
+        /* --- System Header --- */
+        .top-bar {
             display: flex;
-            justify-content: center;
-            gap: 60px;
-            margin-top: 40px;
+            justify-content: space-between;
+            border: 1px solid var(--border);
+            background: var(--panel);
+            padding: 10px 20px;
+            margin-bottom: 2px;
+            text-transform: uppercase;
+            font-weight: bold;
+            letter-spacing: 2px;
         }
 
-        .stat-item {
+        .status-blink {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            background: var(--accent);
+            border-radius: 50%;
+            margin-right: 8px;
+            animation: blink 1s infinite;
+        }
+
+        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+
+        header {
+            display: grid;
+            grid-template-columns: 240px 1fr;
+            gap: 2px;
+            background: var(--border);
+            border: 1px solid var(--border);
+            margin-bottom: 40px;
+        }
+
+        .profile-side {
+            background: var(--panel);
+            padding: 30px;
             display: flex;
             flex-direction: column;
             align-items: center;
+            text-align: center;
         }
 
-        .stat-number {
-            font-size: 32px;
-            font-weight: 600;
-            letter-spacing: -0.01em;
+        .profile-img {
+            width: 100%;
+            aspect-ratio: 1;
+            filter: grayscale(1) contrast(1.2);
+            border: 1px solid var(--border);
+            margin-bottom: 20px;
         }
 
-        .stat-label {
-            font-size: 12px;
-            color: var(--text-secondary);
+        .hero-main {
+            background: var(--bg);
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        h1 {
+            font-size: 42px;
+            color: var(--text-high);
+            margin-bottom: 10px;
+            letter-spacing: -2px;
+        }
+
+        .glitch-text {
+            color: var(--accent);
+            font-size: 16px;
+            margin-bottom: 20px;
+        }
+
+        /* --- Metrics Section --- */
+        .metrics {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2px;
+            background: var(--border);
+            margin-bottom: 60px;
+        }
+
+        .metric-card {
+            background: var(--panel);
+            padding: 20px;
+        }
+
+        .metric-val {
+            font-size: 24px;
+            color: var(--text-high);
+            display: block;
+        }
+
+        .metric-label {
+            font-size: 10px;
+            color: var(--text-low);
             text-transform: uppercase;
-            letter-spacing: 0.1em;
-            margin-top: 8px;
         }
 
-        /* --- Sections --- */
-        section {
-            padding: 100px 0;
-        }
-
-        h2 {
-            font-size: 40px;
-            font-weight: 700;
-            margin-bottom: 48px;
-            letter-spacing: -0.01em;
+        /* --- Project Grid --- */
+        .section-label {
+            padding: 8px 12px;
+            background: var(--accent);
+            color: var(--bg);
+            display: inline-block;
+            font-weight: bold;
+            margin-bottom: 20px;
         }
 
         .repo-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(480px, 1fr));
-            gap: 24px;
-        }
-
-        @media (max-width: 600px) {
-            .repo-grid {
-                grid-template-columns: 1fr;
-            }
-            .stats-row { gap: 30px; }
+            grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+            gap: 20px;
         }
 
         .repo-card {
-            background: var(--card-bg);
-            border-radius: 28px;
-            padding: 40px;
-            text-decoration: none;
-            color: inherit;
-            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            min-height: 280px;
-            border: 1px solid transparent;
+            background: var(--panel);
+            border: 1px solid var(--border);
+            padding: 30px;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.2s ease;
+        }
+
+        .repo-card::before {
+            content: "";
+            position: absolute;
+            top: 0; left: 0; width: 2px; height: 100%;
+            background: var(--accent);
+            transform: scaleY(0);
+            transition: transform 0.2s ease;
         }
 
         .repo-card:hover {
-            transform: scale(1.015);
-            background: var(--card-hover);
-            border-color: rgba(255,255,255,0.1);
+            border-color: var(--accent);
+            transform: translateY(-4px);
         }
 
-        .repo-top {
-            margin-bottom: 24px;
+        .repo-card:hover::before {
+            transform: scaleY(1);
+        }
+
+        .repo-id {
+            color: var(--text-low);
+            font-size: 10px;
+            margin-bottom: 8px;
         }
 
         .repo-name {
-            font-size: 28px;
-            font-weight: 600;
+            color: var(--text-high);
+            font-size: 18px;
             margin-bottom: 12px;
+            text-decoration: none;
             display: block;
         }
 
-        .repo-stars {
-            display: inline-flex;
-            align-items: center;
-            font-size: 14px;
-            font-weight: 600;
-            color: #ff9f0a; /* Apple Orange */
-            margin-bottom: 16px;
-        }
-
         .repo-desc {
-            font-size: 18px;
-            color: var(--text-secondary);
-            line-height: 1.5;
-            font-weight: 400;
+            margin-bottom: 24px;
+            min-height: 45px;
         }
 
-        .repo-bottom {
+        .repo-footer {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-top: 30px;
+            border-top: 1px solid var(--border);
+            padding-top: 15px;
         }
 
-        .repo-lang {
-            font-size: 13px;
-            font-weight: 600;
-            color: var(--text-primary);
-            background: rgba(255,255,255,0.08);
-            padding: 6px 14px;
-            border-radius: 20px;
-        }
-
-        .view-link {
+        .lang-pill {
             color: var(--accent);
-            font-weight: 500;
-            font-size: 15px;
-            display: flex;
-            align-items: center;
-            gap: 4px;
+            background: var(--accent-muted);
+            padding: 2px 8px;
+            font-size: 11px;
         }
 
-        /* --- Footer --- */
+        /* --- System Footer --- */
         footer {
-            padding: 120px 0 60px;
-            text-align: center;
-            color: var(--text-secondary);
-            font-size: 16px;
-            border-top: 1px solid rgba(255,255,255,0.1);
-        }
-
-        .social-links {
-            margin-top: 20px;
+            margin-top: 100px;
+            border-top: 1px solid var(--border);
+            padding-top: 40px;
             display: flex;
-            justify-content: center;
-            gap: 24px;
+            justify-content: space-between;
         }
 
-        .social-links a {
-            color: var(--text-primary);
-            text-decoration: none;
-            font-weight: 500;
-            transition: color 0.2s;
+        .sys-log {
+            color: var(--text-low);
+            font-size: 11px;
         }
 
-        .social-links a:hover {
-            color: var(--accent);
-        }
-
-        @keyframes appleFadeIn {
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .reveal {
-            opacity: 0;
-            transform: translateY(30px);
-            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .reveal.active {
-            opacity: 1;
-            transform: translateY(0);
+        @media (max-width: 850px) {
+            header { grid-template-columns: 1fr; }
+            .metrics { grid-template-columns: repeat(2, 1fr); }
+            .profile-side { flex-direction: row; gap: 20px; text-align: left; }
+            .profile-img { width: 80px; margin-bottom: 0; }
         }
     </style>
 </head>
 <body>
 
     <div class="container">
+        <div class="top-bar">
+            <span><span class="status-blink"></span>System: Operational</span>
+            <span>Uptime: 2026.04.30.0925</span>
+        </div>
+
         <header>
-            <img src="https://avatars.githubusercontent.com/u/3703613?v=4" alt="12britz" class="profile-img">
-            <h1>12britz</h1>
-            <p class="subtitle">Architecting high-performance CLI tools and AI-driven dashboards.</p>
-            
-            <div class="stats-row">
-                <div class="stat-item">
-                    <span class="stat-number">24</span>
-                    <span class="stat-label">Project Stars</span>
+            <div class="profile-side">
+                <img src="https://avatars.githubusercontent.com/u/3703613?v=4" alt="12britz" class="profile-img">
+                <div>
+                    <div style="color: var(--text-high); font-weight: bold;">@12BRITZ</div>
+                    <div style="font-size: 10px; color: var(--text-low); margin-top: 5px;">UID: 3703613</div>
                 </div>
-                <div class="stat-item">
-                    <span class="stat-number">5</span>
-                    <span class="stat-label">Projects</span>
-                </div>
-                <div class="stat-item">
-                    <span class="stat-number">4</span>
-                    <span class="stat-label">Curated Lists</span>
-                </div>
+            </div>
+            <div class="hero-main">
+                <div class="glitch-text">> ROOT_ACCESS_GRANTED</div>
+                <h1>SYSTEMS ENGINEER</h1>
+                <p class="subtitle">Specializing in high-performance TUI applications, LLM orchestration, and developer-centric observability tools.</p>
             </div>
         </header>
 
-        <section id="projects">
-            <h2 class="reveal">My Projects</h2>
+        <div class="metrics">
+            <div class="metric-card">
+                <span class="metric-label">Project Stars</span>
+                <span class="metric-val">24</span>
+            </div>
+            <div class="metric-card">
+                <span class="metric-label">Repositories</span>
+                <span class="metric-val">5</span>
+            </div>
+            <div class="metric-card">
+                <span class="metric-label">Main Stack</span>
+                <span class="metric-val">TS/JS</span>
+            </div>
+            <div class="metric-card">
+                <span class="metric-label">Origin</span>
+                <span class="metric-val">IND_01</span>
+            </div>
+        </div>
+
+        <div class="section-label">ACTIVE_MODULES</div>
+        
+        <div class="repo-grid">
+            
+            <div class="repo-card">
+                <div class="repo-id">#01 // NETWORK_WRAPPER</div>
+                <a href="https://github.com/12britz/zcurl" class="repo-name">zcurl.sh</a>
+                <p class="repo-desc">Beautifuly colored curl alternative with stunning output for terminal.</p>
+                <div class="repo-footer">
+                    <span class="lang-pill">JAVASCRIPT</span>
+                    <span style="color: var(--text-high);">13 ★</span>
+                </div>
+            </div>
+
+            <div class="repo-card">
+                <div class="repo-id">#02 // SYSTEM_PROC</div>
+                <a href="https://github.com/12britz/sysview" class="repo-name">sysview</a>
+                <p class="repo-desc">Terminal system monitor — CPU, memory, disk, ports, network & processes.</p>
+                <div class="repo-footer">
+                    <span class="lang-pill">TYPESCRIPT</span>
+                    <span style="color: var(--text-high);">5 ★</span>
+                </div>
+            </div>
+
+            <div class="repo-card">
+                <div class="repo-id">#03 // LLM_FRAMEWORK</div>
+                <a href="https://github.com/12britz/llmring" class="repo-name">llmring</a>
+                <p class="repo-desc">TypeScript LLM framework for building AI applications.</p>
+                <div class="repo-footer">
+                    <span class="lang-pill">TYPESCRIPT</span>
+                    <span style="color: var(--text-high);">3 ★</span>
+                </div>
+            </div>
+
+            <div class="repo-card">
+                <div class="repo-id">#04 // DEP_SOLVER</div>
+                <a href="https://github.com/12britz/pix" class="repo-name">pix</a>
+                <p class="repo-desc">CLI dependency solver using local AI (Ollama) for pip, npm, Maven.</p>
+                <div class="repo-footer">
+                    <span class="lang-pill">PYTHON</span>
+                    <span style="color: var(--text-high);">2 ★</span>
+                </div>
+            </div>
+
+            <div class="repo-card">
+                <div class="repo-id">#05 // K8S_OPTIMIZER</div>
+                <a href="https://github.com/12britz/loadpilot" class="repo-name">loadpilot</a>
+                <p class="repo-desc">Kubernetes pod config optimizer with JMeter + Ollama AI recommendations.</p>
+                <div class="repo-footer">
+                    <span class="lang-pill">PYTHON</span>
+                    <span style="color: var(--text-high);">1 ★</span>
+                </div>
+            </div>
+
+        </div>
+
+        <div style="margin-top: 80px;">
+            <div class="section-label">CURATED_LISTS</div>
+            
             <div class="repo-grid">
+                
+                <div class="repo-card">
+                    <div class="repo-id">#06 // AI_GATEWAYS</div>
+                    <a href="https://github.com/12britz/awesome-ai-gateways" class="repo-name">awesome-ai-gateways</a>
+                    <p class="repo-desc">Curated list of AI gateway tools, libraries & resources for LLM routing.</p>
+                    <div class="repo-footer">
+                        <span class="lang-pill">RESOURCE</span>
+                        <span style="color: var(--text-high);">2 ★</span>
+                    </div>
+                </div>
 
-                <a href="https://github.com/12britz/zcurl" class="repo-card reveal">
-                    <div class="repo-top">
-                        <span class="repo-stars">★ 13</span>
-                        <span class="repo-name">zcurl</span>
-                        <p class="repo-desc">Beautifully colored curl alternative with stunning output</p>
+                <div class="repo-card">
+                    <div class="repo-id">#07 // AI_SIDE_PROJECTS</div>
+                    <a href="https://github.com/12britz/awesome-ai-sideprojects" class="repo-name">awesome-ai-sideprojects</a>
+                    <p class="repo-desc">AI-powered side project ideas, starter templates, tools & resources.</p>
+                    <div class="repo-footer">
+                        <span class="lang-pill">RESOURCE</span>
+                        <span style="color: var(--text-high);">0 ★</span>
                     </div>
-                    <div class="repo-bottom">
-                        <span class="repo-lang">JavaScript</span>
-                        <span class="view-link">View Project →</span>
-                    </div>
-                </a>
+                </div>
 
-                <a href="https://github.com/12britz/sysview" class="repo-card reveal">
-                    <div class="repo-top">
-                        <span class="repo-stars">★ 5</span>
-                        <span class="repo-name">sysview</span>
-                        <p class="repo-desc">Terminal system monitor — CPU, memory, disk, ports, network</p>
+                <div class="repo-card">
+                    <div class="repo-id">#08 // TUI_LIST</div>
+                    <a href="https://github.com/12britz/awesome-tui" class="repo-name">awesome-tui</a>
+                    <p class="repo-desc">Browse awesome lists in the terminal with this Python TUI tool.</p>
+                    <div class="repo-footer">
+                        <span class="lang-pill">PYTHON</span>
+                        <span style="color: var(--text-high);">0 ★</span>
                     </div>
-                    <div class="repo-bottom">
-                        <span class="repo-lang">TypeScript</span>
-                        <span class="view-link">View Project →</span>
-                    </div>
-                </a>
+                </div>
 
-                <a href="https://github.com/12britz/llmring" class="repo-card reveal">
-                    <div class="repo-top">
-                        <span class="repo-stars">★ 3</span>
-                        <span class="repo-name">llmring</span>
-                        <p class="repo-desc">TypeScript LLM framework</p>
+                <div class="repo-card">
+                    <div class="repo-id">#09 // COMPUTER_USE</div>
+                    <a href="https://github.com/12britz/awesome-computer-use" class="repo-name">awesome-computer-use</a>
+                    <p class="repo-desc">139 open-source projects for AI desktop automation and computer use.</p>
+                    <div class="repo-footer">
+                        <span class="lang-pill">RESOURCE</span>
+                        <span style="color: var(--text-high);">0 ★</span>
                     </div>
-                    <div class="repo-bottom">
-                        <span class="repo-lang">TypeScript</span>
-                        <span class="view-link">View Project →</span>
-                    </div>
-                </a>
-
-                <a href="https://github.com/12britz/pix" class="repo-card reveal">
-                    <div class="repo-top">
-                        <span class="repo-stars">★ 2</span>
-                        <span class="repo-name">pix</span>
-                        <p class="repo-desc">CLI dependency solver using local AI (Ollama)</p>
-                    </div>
-                    <div class="repo-bottom">
-                        <span class="repo-lang">Python</span>
-                        <span class="view-link">View Project →</span>
-                    </div>
-                </a>
-
-                <a href="https://github.com/12britz/loadpilot" class="repo-card reveal">
-                    <div class="repo-top">
-                        <span class="repo-stars">★ 1</span>
-                        <span class="repo-name">loadpilot</span>
-                        <p class="repo-desc">Kubernetes pod config optimizer with JMeter + Ollama</p>
-                    </div>
-                    <div class="repo-bottom">
-                        <span class="repo-lang">Python</span>
-                        <span class="view-link">View Project →</span>
-                    </div>
-                </a>
+                </div>
 
             </div>
-        </section>
-
-        <section id="curated">
-            <h2 class="reveal">Curated Lists</h2>
-            <div class="repo-grid">
-
-                <a href="https://github.com/12britz/awesome-ai-gateways" class="repo-card reveal">
-                    <div class="repo-top">
-                        <span class="repo-stars">★ 2</span>
-                        <span class="repo-name">awesome-ai-gateways</span>
-                        <p class="repo-desc">Curated list of AI gateway tools & resources</p>
-                    </div>
-                    <div class="repo-bottom">
-                        <span class="repo-lang">—</span>
-                        <span class="view-link">View Project →</span>
-                    </div>
-                </a>
-
-                <a href="https://github.com/12britz/awesome-ai-sideprojects" class="repo-card reveal">
-                    <div class="repo-top">
-                        <span class="repo-stars">★ 0</span>
-                        <span class="repo-name">awesome-ai-sideprojects</span>
-                        <p class="repo-desc">AI side project ideas, templates & resources</p>
-                    </div>
-                    <div class="repo-bottom">
-                        <span class="repo-lang">—</span>
-                        <span class="view-link">View Project →</span>
-                    </div>
-                </a>
-
-                <a href="https://github.com/12britz/awesome-tui" class="repo-card reveal">
-                    <div class="repo-top">
-                        <span class="repo-stars">★ 0</span>
-                        <span class="repo-name">awesome-tui</span>
-                        <p class="repo-desc">Browse awesome lists in the terminal</p>
-                    </div>
-                    <div class="repo-bottom">
-                        <span class="repo-lang">Python</span>
-                        <span class="view-link">View Project →</span>
-                    </div>
-                </a>
-
-                <a href="https://github.com/12britz/awesome-computer-use" class="repo-card reveal">
-                    <div class="repo-top">
-                        <span class="repo-stars">★ 0</span>
-                        <span class="repo-name">awesome-computer-use</span>
-                        <p class="repo-desc">139 AI desktop automation projects</p>
-                    </div>
-                    <div class="repo-bottom">
-                        <span class="repo-lang">—</span>
-                        <span class="view-link">View Project →</span>
-                    </div>
-                </a>
-
-            </div>
-        </section>
+        </div>
 
         <footer>
-            <p>Designed for performance. Engineered in India.</p>
-            <div class="social-links">
-                <a href="https://github.com/12britz">GitHub</a>
-                <a href="https://twitter.com/12britz">Twitter</a>
-                <a href="https://linkedin.com/in/12britz">LinkedIn</a>
+            <div class="sys-log">
+                [LOG]: connection established<br>
+                [LOG]: data_stream initialized<br>
+                [LOG]: 12britz core active
             </div>
-            <p style="margin-top: 40px; font-size: 12px; opacity: 0.5;">© 2026 12britz. All rights reserved.</p>
+            <div style="text-align: right;">
+                <div style="margin-bottom: 10px;">
+                    <a href="https://github.com/12britz" style="color: var(--accent); text-decoration: none;">GH</a> // 
+                    <a href="https://twitter.com/12britz" style="color: var(--accent); text-decoration: none;">TW</a> // 
+                    <a href="https://linkedin.com/in/12britz" style="color: var(--accent); text-decoration: none;">LI</a>
+                </div>
+                <div style="font-size: 10px;">© 2026_CORE_SYSTEMS</div>
+            </div>
         </footer>
     </div>
 
-    <script>
-        // Simple scroll reveal
-        const observerOptions = {
-            threshold: 0.1
-        };
-
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('active');
-                }
-            });
-        }, observerOptions);
-
-        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
-    </script>
 </body>
 </html>
