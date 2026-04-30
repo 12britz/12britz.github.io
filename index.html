@@ -3,399 +3,350 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>12britz - Starred Repos</title>
+    <title>12britz — Developer Portfolio</title>
     <style>
+        :root {
+            --bg: #000000;
+            --card-bg: #1c1c1e;
+            --text-primary: #f5f5f7;
+            --text-secondary: #86868b;
+            --accent: #0071e3;
+            --card-hover: #2c2c2e;
+        }
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            -webkit-font-smoothing: antialiased;
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
-            color: #e0e0e0;
-            min-height: 100vh;
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", "Helvetica Neue", sans-serif;
+            background-color: var(--bg);
+            color: var(--text-primary);
+            line-height: 1.1;
             overflow-x: hidden;
         }
 
-        .animated-bg {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(45deg, #0f3460, #16213e, #1a1a2e, #533483);
-            background-size: 400% 400%;
-            animation: gradientShift 15s ease infinite;
-            z-index: -1;
-        }
-
-        @keyframes gradientShift {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-
         .container {
-            max-width: 1400px;
+            max-width: 1080px;
             margin: 0 auto;
-            padding: 40px 20px;
+            padding: 0 20px;
         }
 
+        /* --- Hero Section --- */
         header {
+            padding: 140px 0 80px;
             text-align: center;
-            padding: 60px 20px;
-            animation: fadeInDown 1s ease;
-        }
-
-        @keyframes fadeInDown {
-            from { opacity: 0; transform: translateY(-30px); }
-            to { opacity: 1; transform: translateY(0); }
+            opacity: 0;
+            transform: translateY(20px);
+            animation: appleFadeIn 1s cubic-bezier(0.4, 0, 0.2, 1) forwards;
         }
 
         .profile-img {
-            width: 150px;
-            height: 150px;
-            border-radius: 50%;
-            border: 4px solid #50fa7b;
-            box-shadow: 0 0 30px rgba(80, 250, 123, 0.3);
-            animation: pulse 2s ease-in-out infinite;
-        }
-
-        @keyframes pulse {
-            0%, 100% { box-shadow: 0 0 30px rgba(80, 250, 123, 0.3); }
-            50% { box-shadow: 0 0 50px rgba(80, 250, 123, 0.6); }
+            width: 120px;
+            height: 120px;
+            border-radius: 26px; /* Apple Squircle-ish */
+            margin-bottom: 30px;
+            object-fit: cover;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
         }
 
         h1 {
-            font-size: 3em;
-            margin: 20px 0 10px;
-            background: linear-gradient(45deg, #50fa7b, #ff79c6, #8be9fd);
+            font-size: clamp(40px, 8vw, 72px);
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            margin-bottom: 16px;
+            background: linear-gradient(180deg, #fff 0%, #a1a1a6 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            animation: fadeInDown 1s ease 0.2s backwards;
         }
 
         .subtitle {
-            font-size: 1.2em;
-            color: #6272a4;
-            animation: fadeInDown 1s ease 0.4s backwards;
+            font-size: clamp(18px, 4vw, 24px);
+            color: var(--text-secondary);
+            font-weight: 500;
+            max-width: 600px;
+            margin: 0 auto 40px;
+            line-height: 1.3;
         }
 
-        .stats {
+        .stats-row {
             display: flex;
             justify-content: center;
-            gap: 30px;
-            margin: 30px 0;
-            animation: fadeInDown 1s ease 0.6s backwards;
+            gap: 60px;
+            margin-top: 40px;
         }
 
         .stat-item {
-            background: rgba(255, 255, 255, 0.05);
-            padding: 15px 30px;
-            border-radius: 10px;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(80, 250, 123, 0.2);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
         .stat-number {
-            font-size: 2em;
-            font-weight: bold;
-            color: #50fa7b;
+            font-size: 32px;
+            font-weight: 600;
+            letter-spacing: -0.01em;
         }
 
         .stat-label {
-            font-size: 0.9em;
-            color: #6272a4;
+            font-size: 12px;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-top: 8px;
         }
 
+        /* --- Sections --- */
         section {
-            margin: 60px 0;
-            animation: fadeInUp 1s ease;
-        }
-
-        @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(30px); }
-            to { opacity: 1; transform: translateY(0); }
+            padding: 100px 0;
         }
 
         h2 {
-            font-size: 2em;
-            margin-bottom: 30px;
-            color: #8be9fd;
-            border-left: 4px solid #ff79c6;
-            padding-left: 15px;
+            font-size: 40px;
+            font-weight: 700;
+            margin-bottom: 48px;
+            letter-spacing: -0.01em;
         }
 
         .repo-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-            gap: 25px;
-            margin-top: 30px;
+            grid-template-columns: repeat(auto-fit, minmax(480px, 1fr));
+            gap: 24px;
+        }
+
+        @media (max-width: 600px) {
+            .repo-grid {
+                grid-template-columns: 1fr;
+            }
+            .stats-row { gap: 30px; }
         }
 
         .repo-card {
-            background: rgba(40, 42, 54, 0.8);
-            border-radius: 15px;
-            padding: 25px;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(80, 250, 123, 0.1);
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .repo-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 4px;
-            background: linear-gradient(90deg, #50fa7b, #ff79c6, #8be9fd);
-            transform: translateX(-100%);
-            transition: transform 0.3s ease;
-        }
-
-        .repo-card:hover::before {
-            transform: translateX(0);
+            background: var(--card-bg);
+            border-radius: 28px;
+            padding: 40px;
+            text-decoration: none;
+            color: inherit;
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            min-height: 280px;
+            border: 1px solid transparent;
         }
 
         .repo-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 15px 40px rgba(80, 250, 123, 0.2);
-            border-color: rgba(80, 250, 123, 0.4);
+            transform: scale(1.015);
+            background: var(--card-hover);
+            border-color: rgba(255,255,255,0.1);
         }
 
-        .repo-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 15px;
+        .repo-top {
+            margin-bottom: 24px;
         }
 
         .repo-name {
-            font-size: 1.3em;
-            font-weight: bold;
-            color: #50fa7b;
-            text-decoration: none;
-            transition: color 0.3s ease;
-        }
-
-        .repo-name:hover {
-            color: #ff79c6;
+            font-size: 28px;
+            font-weight: 600;
+            margin-bottom: 12px;
+            display: block;
         }
 
         .repo-stars {
-            background: linear-gradient(45deg, #ff79c6, #8be9fd);
-            padding: 5px 15px;
-            border-radius: 20px;
-            font-weight: bold;
-            font-size: 0.9em;
+            display: inline-flex;
+            align-items: center;
+            font-size: 14px;
+            font-weight: 600;
+            color: #ff9f0a; /* Apple Orange */
+            margin-bottom: 16px;
         }
 
         .repo-desc {
-            color: #6272a4;
-            line-height: 1.6;
-            margin-bottom: 15px;
+            font-size: 18px;
+            color: var(--text-secondary);
+            line-height: 1.5;
+            font-weight: 400;
+        }
+
+        .repo-bottom {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 30px;
         }
 
         .repo-lang {
-            display: inline-block;
-            background: rgba(139, 233, 253, 0.2);
-            padding: 5px 15px;
-            border-radius: 15px;
-            font-size: 0.85em;
-            color: #8be9fd;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-primary);
+            background: rgba(255,255,255,0.08);
+            padding: 6px 14px;
+            border-radius: 20px;
         }
 
-        .empty-lang {
-            background: rgba(98, 114, 164, 0.2);
-            color: #6272a4;
+        .view-link {
+            color: var(--accent);
+            font-weight: 500;
+            font-size: 15px;
+            display: flex;
+            align-items: center;
+            gap: 4px;
         }
 
+        /* --- Footer --- */
         footer {
+            padding: 120px 0 60px;
             text-align: center;
-            padding: 40px;
-            color: #6272a4;
-            border-top: 1px solid rgba(80, 250, 123, 0.1);
-            margin-top: 60px;
+            color: var(--text-secondary);
+            font-size: 16px;
+            border-top: 1px solid rgba(255,255,255,0.1);
         }
 
-        .heart {
-            color: #ff79c6;
-            animation: heartbeat 1.5s ease-in-out infinite;
+        .social-links {
+            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+            gap: 24px;
         }
 
-        @keyframes heartbeat {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.2); }
+        .social-links a {
+            color: var(--text-primary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.2s;
         }
 
-        @media (max-width: 768px) {
-            h1 { font-size: 2em; }
-            .repo-grid { grid-template-columns: 1fr; }
-            .stats { flex-direction: column; align-items: center; }
+        .social-links a:hover {
+            color: var(--accent);
+        }
+
+        @keyframes appleFadeIn {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
         }
     </style>
 </head>
 <body>
-    <div class="animated-bg"></div>
-    
+
     <div class="container">
         <header>
             <img src="https://avatars.githubusercontent.com/u/3703613?v=4" alt="12britz" class="profile-img">
             <h1>12britz</h1>
-            <p class="subtitle">"It works on my machine ¯\_(ツ)_/¯"</p>
-            <div class="stats">
+            <p class="subtitle">Architecting high-performance CLI tools and AI-driven dashboards.</p>
+            
+            <div class="stats-row">
                 <div class="stat-item">
-                    <div class="stat-number">5</div>
-                    <div class="stat-label">Starred Repos</div>
+                    <span class="stat-number">7K+</span>
+                    <span class="stat-label">Total Stars</span>
                 </div>
                 <div class="stat-item">
-                    <div class="stat-number">13+</div>
-                    <div class="stat-label">Own Repositories</div>
+                    <span class="stat-number">13+</span>
+                    <span class="stat-label">Projects</span>
                 </div>
                 <div class="stat-item">
-                    <div class="stat-number">7K+</div>
-                    <div class="stat-label">Total Stars</div>
+                    <span class="stat-number">5</span>
+                    <span class="stat-label">Curated</span>
                 </div>
             </div>
         </header>
 
-        <section>
-            <h2>⭐ Starred Repositories</h2>
+        <section id="starred">
+            <h2 class="reveal">Featured Work</h2>
             <div class="repo-grid">
-                <div class="repo-card">
-                    <div class="repo-header">
-                        <a href="https://github.com/getagentseal/codeburn" class="repo-name">codeburn</a>
-                        <span class="repo-stars">⭐ 4680</span>
+                
+                <a href="https://github.com/getagentseal/codeburn" class="repo-card reveal">
+                    <div class="repo-top">
+                        <span class="repo-stars">★ 4,680</span>
+                        <span class="repo-name">codeburn</span>
+                        <p class="repo-desc">Interactive TUI dashboard for Claude Code and Cursor cost observability. Know your token spend.</p>
                     </div>
-                    <p class="repo-desc">See where your AI coding tokens go. Interactive TUI dashboard for Claude Code, Codex, and Cursor cost observability.</p>
-                    <span class="repo-lang">TypeScript</span>
-                </div>
+                    <div class="repo-bottom">
+                        <span class="repo-lang">TypeScript</span>
+                        <span class="view-link">View Project →</span>
+                    </div>
+                </a>
 
-                <div class="repo-card">
-                    <div class="repo-header">
-                        <a href="https://github.com/Pavelevich/llm-checker" class="repo-name">llm-checker</a>
-                        <span class="repo-stars">⭐ 1997</span>
+                <a href="https://github.com/Pavelevich/llm-checker" class="repo-card reveal">
+                    <div class="repo-top">
+                        <span class="repo-stars">★ 1,997</span>
+                        <span class="repo-name">llm-checker</span>
+                        <p class="repo-desc">Advanced hardware scanner for local LLM compatibility with full Ollama integration.</p>
                     </div>
-                    <p class="repo-desc">Advanced CLI tool that scans your hardware and tells you exactly which LLM or sLLM models you can run locally, with full Ollama integration.</p>
-                    <span class="repo-lang">JavaScript</span>
-                </div>
+                    <div class="repo-bottom">
+                        <span class="repo-lang">JavaScript</span>
+                        <span class="view-link">View Project →</span>
+                    </div>
+                </a>
 
-                <div class="repo-card">
-                    <div class="repo-header">
-                        <a href="https://github.com/LarsenCundric/port-whisperer" class="repo-name">port-whisperer</a>
-                        <span class="repo-stars">⭐ 825</span>
+                <a href="https://github.com/12britz/zcurl" class="repo-card reveal">
+                    <div class="repo-top">
+                        <span class="repo-stars">★ 13</span>
+                        <span class="repo-name">zcurl</span>
+                        <p class="repo-desc">A beautifully colored curl alternative with stunning box-style output for terminal purists.</p>
                     </div>
-                    <p class="repo-desc">A beautiful CLI tool to see what's running on your ports.</p>
-                    <span class="repo-lang">JavaScript</span>
-                </div>
+                    <div class="repo-bottom">
+                        <span class="repo-lang">JavaScript</span>
+                        <span class="view-link">View Project →</span>
+                    </div>
+                </a>
 
-                <div class="repo-card">
-                    <div class="repo-header">
-                        <a href="https://github.com/mpfaffenberger/code_puppy" class="repo-name">code_puppy</a>
-                        <span class="repo-stars">⭐ 529</span>
+                <a href="https://github.com/12britz/sysview" class="repo-card reveal">
+                    <div class="repo-top">
+                        <span class="repo-stars">★ 5</span>
+                        <span class="repo-name">sysview</span>
+                        <p class="repo-desc">System monitoring reimagined. Visualize CPU, memory, and processes with elegance.</p>
                     </div>
-                    <p class="repo-desc">Agentic AI for writing code.</p>
-                    <span class="repo-lang">Python</span>
-                </div>
+                    <div class="repo-bottom">
+                        <span class="repo-lang">TypeScript</span>
+                        <span class="view-link">View Project →</span>
+                    </div>
+                </a>
 
-                <div class="repo-card">
-                    <div class="repo-header">
-                        <a href="https://github.com/LarsenCundric/git-flex" class="repo-name">git-flex</a>
-                        <span class="repo-stars">⭐ 7</span>
-                    </div>
-                    <p class="repo-desc">Show off your coding stats in style. Beautiful terminal cards, shareable SVGs, and fun highlights from your git history.</p>
-                    <span class="repo-lang">JavaScript</span>
-                </div>
-            </div>
-        </section>
-
-        <section>
-            <h2>🚀 My Popular Repos</h2>
-            <div class="repo-grid">
-                <div class="repo-card">
-                    <div class="repo-header">
-                        <a href="https://github.com/12britz/zcurl" class="repo-name">zcurl</a>
-                        <span class="repo-stars">⭐ 13</span>
-                    </div>
-                    <p class="repo-desc">A beautifully colored curl alternative with stunning box-style output. Make HTTP requests that look amazing in your terminal.</p>
-                    <span class="repo-lang">JavaScript</span>
-                </div>
-
-                <div class="repo-card">
-                    <div class="repo-header">
-                        <a href="https://github.com/12britz/sysview" class="repo-name">sysview</a>
-                        <span class="repo-stars">⭐ 5</span>
-                    </div>
-                    <p class="repo-desc">Beautiful terminal system monitor — CPU, memory, disk, ports, network & processes with colorful tables.</p>
-                    <span class="repo-lang">TypeScript</span>
-                </div>
-
-                <div class="repo-card">
-                    <div class="repo-header">
-                        <a href="https://github.com/12britz/llmring" class="repo-name">llmring</a>
-                        <span class="repo-stars">⭐ 3</span>
-                    </div>
-                    <p class="repo-desc">TypeScript LLM framework for building AI applications.</p>
-                    <span class="repo-lang">TypeScript</span>
-                </div>
-
-                <div class="repo-card">
-                    <div class="repo-header">
-                        <a href="https://github.com/12britz/pix" class="repo-name">pix</a>
-                        <span class="repo-stars">⭐ 2</span>
-                    </div>
-                    <p class="repo-desc">Pix is a CLI tool that uses Ollama (local AI) to solve dependency issues for package managers like pip, npm, Maven, and Cargo.</p>
-                    <span class="repo-lang">Python</span>
-                </div>
-
-                <div class="repo-card">
-                    <div class="repo-header">
-                        <a href="https://github.com/12britz/awesome-ai-gateways" class="repo-name">awesome-ai-gateways</a>
-                        <span class="repo-stars">⭐ 2</span>
-                    </div>
-                    <p class="repo-desc">Managing 100+ LLM APIs, handling rate limits, implementing fallbacks, and tracking token costs.</p>
-                    <span class="repo-lang empty-lang">—</span>
-                </div>
-
-                <div class="repo-card">
-                    <div class="repo-header">
-                        <a href="https://github.com/12britz/loadpilot" class="repo-name">loadpilot</a>
-                        <span class="repo-stars">⭐ 1</span>
-                    </div>
-                    <p class="repo-desc">LoadPilot helps you find the optimal pod configuration for your Kubernetes workloads.</p>
-                    <span class="repo-lang">Python</span>
-                </div>
             </div>
         </section>
 
         <footer>
-            <p>Made with <span class="heart">❤️</span> and ☕ in India</p>
-            <p style="margin-top: 10px;">© 2026 12britz • <a href="https://github.com/12britz" style="color: #50fa7b;">GitHub</a> • <a href="https://twitter.com/12britz" style="color: #50fa7b;">Twitter</a> • <a href="https://linkedin.com/in/12britz" style="color: #50fa7b;">LinkedIn</a></p>
+            <p>Designed for performance. Engineered in India.</p>
+            <div class="social-links">
+                <a href="https://github.com/12britz">GitHub</a>
+                <a href="#">Twitter</a>
+                <a href="#">LinkedIn</a>
+            </div>
+            <p style="margin-top: 40px; font-size: 12px; opacity: 0.5;">© 2026 12britz. All rights reserved.</p>
         </footer>
     </div>
 
     <script>
-        // Add intersection observer for scroll animations
+        // Simple scroll reveal
+        const observerOptions = {
+            threshold: 0.1
+        };
+
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
-                    entry.target.style.opacity = '1';
-                    entry.target.style.transform = 'translateY(0)';
+                    entry.target.classList.add('active');
                 }
             });
-        }, { threshold: 0.1 });
+        }, observerOptions);
 
-        document.querySelectorAll('.repo-card').forEach(card => {
-            card.style.opacity = '0';
-            card.style.transform = 'translateY(30px)';
-            card.style.transition = 'all 0.6s ease';
-            observer.observe(card);
-        });
+        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
     </script>
 </body>
 </html>
