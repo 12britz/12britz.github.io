@@ -1,421 +1,661 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>12BRITZ // SYSTEM_CORE</title>
-    <style>
-        :root {
-            --bg: #050505;
-            --panel: #0d0d0f;
-            --border: #1f1f23;
-            --accent: #4ade80; /* Terminal Green */
-            --accent-muted: rgba(74, 222, 128, 0.1);
-            --text-high: #ffffff;
-            --text-mid: #a1a1aa;
-            --text-low: #3f3f46;
-            --mono: 'JetBrains Mono', 'Fira Code', 'SF Mono', monospace;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>12britz // dev terminal</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            cursor: crosshair;
-        }
+    :root {
+      --bg: #0a0a0f;
+      --surface: #12121a;
+      --surface2: #1a1a28;
+      --border: #1e1e30;
+      --border-light: #2a2a42;
+      --accent: #4ade80;
+      --accent-dim: rgba(74, 222, 128, 0.12);
+      --blue: #60a5fa;
+      --pink: #f472b6;
+      --orange: #fb923c;
+      --purple: #a78bfa;
+      --cyan: #22d3ee;
+      --yellow: #facc15;
+      --text: #e4e4e7;
+      --text-dim: #71717a;
+      --text-muted: #3f3f46;
+      --mono: 'JetBrains Mono', 'Fira Code', 'SF Mono', 'Cascadia Code', monospace;
+      --radius: 8px;
+    }
 
-        body {
-            font-family: var(--mono);
-            background-color: var(--bg);
-            color: var(--text-mid);
-            font-size: 13px;
-            line-height: 1.5;
-            overflow-x: hidden;
-            background-image: 
-                radial-gradient(circle at 2px 2px, var(--border) 1px, transparent 0);
-            background-size: 32px 32px;
-        }
+    body {
+      font-family: var(--mono);
+      background: var(--bg);
+      color: var(--text);
+      font-size: 13px;
+      line-height: 1.6;
+      overflow-x: hidden;
+      min-height: 100vh;
+    }
 
-        /* --- Scanline Effect --- */
-        body::before {
-            content: "";
-            display: block;
-            position: fixed;
-            top: 0; left: 0; bottom: 0; right: 0;
-            background: linear-gradient(
-                        rgba(18, 16, 16, 0) 50%,
-                        rgba(0, 0, 0, 0.25) 50%), 
-                        linear-gradient(90deg, rgba(255, 0, 0, 0.03), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.03));
-            z-index: 2000;
-            background-size: 100% 2px, 3px 100%;
-            pointer-events: none;
-        }
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(30, 30, 48, 0.25) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(30, 30, 48, 0.25) 1px, transparent 1px);
+      background-size: 48px 48px;
+      z-index: 0;
+      pointer-events: none;
+    }
 
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 40px 20px;
-        }
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background: repeating-linear-gradient(
+        0deg, transparent, transparent 2px, rgba(0,0,0,0.06) 2px, rgba(0,0,0,0.06) 4px
+      );
+      z-index: 2000;
+      pointer-events: none;
+    }
 
-        /* --- System Header --- */
-        .top-bar {
-            display: flex;
-            justify-content: space-between;
-            border: 1px solid var(--border);
-            background: var(--panel);
-            padding: 10px 20px;
-            margin-bottom: 2px;
-            text-transform: uppercase;
-            font-weight: bold;
-            letter-spacing: 2px;
-        }
+    .container {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 0 24px;
+      position: relative;
+      z-index: 1;
+    }
 
-        .status-blink {
-            display: inline-block;
-            width: 8px;
-            height: 8px;
-            background: var(--accent);
-            border-radius: 50%;
-            margin-right: 8px;
-            animation: blink 1s infinite;
-        }
+    .glow-accent {
+      position: fixed;
+      top: -20vh; right: -20vw;
+      width: 60vw; height: 60vh;
+      background: radial-gradient(circle, rgba(74,222,128,0.04) 0%, transparent 70%);
+      z-index: 0; pointer-events: none;
+    }
+    .glow-blue {
+      position: fixed;
+      bottom: -20vh; left: -20vw;
+      width: 60vw; height: 60vh;
+      background: radial-gradient(circle, rgba(96,165,250,0.04) 0%, transparent 70%);
+      z-index: 0; pointer-events: none;
+    }
 
-        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+    /* ── Top Bar ── */
+    .top-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 0;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 48px;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+    }
+    .top-bar-left { display: flex; align-items: center; gap: 10px; }
+    .status-dot {
+      width: 7px; height: 7px;
+      border-radius: 50%;
+      background: var(--accent);
+      animation: pulse-dot 2s ease-in-out infinite;
+    }
+    @keyframes pulse-dot {
+      0%, 100% { box-shadow: 0 0 4px var(--accent); opacity: 1; }
+      50% { box-shadow: 0 0 10px var(--accent); opacity: 0.5; }
+    }
+    .top-bar-right { color: var(--text-dim); display: flex; gap: 20px; }
+    #live-clock { color: var(--accent); }
 
-        header {
-            display: grid;
-            grid-template-columns: 240px 1fr;
-            gap: 2px;
-            background: var(--border);
-            border: 1px solid var(--border);
-            margin-bottom: 40px;
-        }
+    /* ── Hero ── */
+    .hero {
+      display: flex;
+      gap: 48px;
+      align-items: center;
+      margin-bottom: 64px;
+      position: relative;
+    }
+    .hero-avatar {
+      flex-shrink: 0;
+      width: 120px; height: 120px;
+      border-radius: 50%;
+      overflow: hidden;
+      position: relative;
+    }
+    .hero-avatar::after {
+      content: '';
+      position: absolute;
+      inset: -2px;
+      border-radius: 50%;
+      background: conic-gradient(var(--accent), var(--blue), var(--purple), var(--accent));
+      z-index: -1;
+      opacity: 0.5;
+    }
+    .hero-avatar img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      border-radius: 50%;
+    }
+    .hero-content { flex: 1; }
+    .hero-badge {
+      display: inline-block;
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: var(--accent);
+      border: 1px solid var(--accent-dim);
+      background: var(--accent-dim);
+      padding: 4px 12px;
+      border-radius: 4px;
+      margin-bottom: 16px;
+    }
+    .hero h1 {
+      font-size: 40px;
+      font-weight: 800;
+      color: #fff;
+      letter-spacing: -1px;
+      margin-bottom: 12px;
+      line-height: 1.1;
+    }
+    .hero h1 .accent { color: var(--accent); }
+    .hero h1 .cursor {
+      display: inline-block;
+      width: 12px;
+      height: 2px;
+      background: var(--accent);
+      animation: blink-cursor 1s step-end infinite;
+      margin-left: 4px;
+      vertical-align: middle;
+    }
+    @keyframes blink-cursor { 50% { opacity: 0; } }
+    .hero p {
+      color: var(--text-dim);
+      font-size: 13px;
+      max-width: 560px;
+      line-height: 1.8;
+    }
 
-        .profile-side {
-            background: var(--panel);
-            padding: 30px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            text-align: center;
-        }
+    /* ── Quick Stats ── */
+    .quick-stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 2px;
+      background: var(--border);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      margin-bottom: 64px;
+    }
+    .quick-stat {
+      background: var(--surface);
+      padding: 20px;
+      text-align: center;
+    }
+    .quick-stat .num {
+      font-size: 28px;
+      font-weight: 700;
+      color: #fff;
+      display: block;
+      letter-spacing: -1px;
+    }
+    .quick-stat .label {
+      font-size: 9px;
+      text-transform: uppercase;
+      color: var(--text-dim);
+      letter-spacing: 1.5px;
+      margin-top: 4px;
+    }
 
-        .profile-img {
-            width: 100%;
-            aspect-ratio: 1;
-            filter: grayscale(1) contrast(1.2);
-            border: 1px solid var(--border);
-            margin-bottom: 20px;
-        }
+    /* ── Terminal Window ── */
+    .terminal-window {
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: var(--surface);
+      overflow: hidden;
+      margin-bottom: 64px;
+    }
+    .terminal-header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 16px;
+      background: var(--surface2);
+      border-bottom: 1px solid var(--border);
+    }
+    .term-dot {
+      width: 10px; height: 10px;
+      border-radius: 50%;
+      border: 1px solid rgba(255,255,255,0.06);
+    }
+    .term-dot.red { background: #ff5f56; }
+    .term-dot.yellow { background: #ffbd2e; }
+    .term-dot.green { background: #27c93f; }
+    .terminal-title {
+      font-size: 11px;
+      color: var(--text-dim);
+      margin-left: 8px;
+      letter-spacing: 0.5px;
+    }
+    .terminal-body {
+      padding: 24px;
+      font-size: 13px;
+      line-height: 1.9;
+      min-height: 180px;
+    }
+    .terminal-body .line { opacity: 0; animation: fade-line 0.4s ease forwards; }
+    .terminal-body .prompt { color: var(--accent); }
+    .terminal-body .cmd { color: #fff; }
+    .terminal-body .output { color: var(--text-dim); margin-left: 18px; }
+    .terminal-body .output a { color: var(--blue); text-decoration: none; }
+    .terminal-body .output a:hover { color: var(--cyan); }
+    @keyframes fade-line { to { opacity: 1; } }
 
-        .hero-main {
-            background: var(--bg);
-            padding: 40px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-        }
+    /* ── Section Tabs ── */
+    .section-tabs {
+      display: flex;
+      gap: 4px;
+      margin-bottom: 28px;
+      flex-wrap: wrap;
+    }
+    .section-tab {
+      font-family: var(--mono);
+      font-size: 11px;
+      padding: 8px 18px;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      color: var(--text-dim);
+      cursor: pointer;
+      transition: all 0.15s ease;
+      border-radius: 4px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    .section-tab:hover { border-color: var(--border-light); color: var(--text); }
+    .section-tab.active {
+      background: var(--accent-dim);
+      border-color: var(--accent);
+      color: var(--accent);
+    }
 
-        h1 {
-            font-size: 42px;
-            color: var(--text-high);
-            margin-bottom: 10px;
-            letter-spacing: -2px;
-        }
+    /* ── Project Grid ── */
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+      gap: 16px;
+      margin-bottom: 48px;
+    }
+    .project-card {
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: var(--surface);
+      padding: 24px;
+      transition: all 0.2s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    .project-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; width: 3px; height: 100%;
+      background: var(--accent);
+      transform: scaleY(0);
+      transition: transform 0.25s ease;
+    }
+    .project-card:hover {
+      border-color: var(--border-light);
+      transform: translateY(-3px);
+      box-shadow: 0 8px 30px rgba(0,0,0,0.3);
+    }
+    .project-card:hover::before { transform: scaleY(1); }
+    .project-card .top-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 12px;
+    }
+    .project-card .name {
+      font-size: 16px;
+      font-weight: 700;
+      color: #fff;
+      text-decoration: none;
+      transition: color 0.15s;
+    }
+    .project-card .name:hover { color: var(--accent); }
+    .project-card .stars {
+      font-size: 12px;
+      color: var(--yellow);
+      white-space: nowrap;
+    }
+    .project-card .desc {
+      color: var(--text-dim);
+      font-size: 12px;
+      line-height: 1.7;
+      margin-bottom: 16px;
+      min-height: 38px;
+    }
+    .project-card .footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-top: 1px solid var(--border);
+      padding-top: 14px;
+    }
+    .lang-pill {
+      font-size: 10px;
+      padding: 3px 10px;
+      border-radius: 3px;
+      letter-spacing: 0.5px;
+    }
+    .lang-pill.javascript { background: rgba(240,219,79,0.12); color: #f0db4f; }
+    .lang-pill.typescript { background: rgba(49,120,198,0.12); color: #3178c6; }
+    .lang-pill.python { background: rgba(55,118,171,0.12); color: #3776ab; }
+    .lang-pill.resource { background: var(--accent-dim); color: var(--accent); }
+    .lang-pill.html { background: rgba(227,76,38,0.12); color: #e34c26; }
+    .lang-pill.fork { background: rgba(162,128,255,0.12); color: #a280ff; }
+    .project-card .top-star {
+      font-size: 9px;
+      color: var(--yellow);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
 
-        .glitch-text {
-            color: var(--accent);
-            font-size: 16px;
-            margin-bottom: 20px;
-        }
+    /* ── Section Header ── */
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 28px;
+    }
+    .section-header h2 {
+      font-size: 14px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: #fff;
+    }
+    .section-header .count {
+      font-size: 11px;
+      color: var(--text-dim);
+      background: var(--surface2);
+      padding: 2px 10px;
+      border-radius: 10px;
+    }
+    .section-header .line {
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
 
-        /* --- Metrics Section --- */
-        .metrics {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 2px;
-            background: var(--border);
-            margin-bottom: 60px;
-        }
+    /* ── Footer ── */
+    footer {
+      margin-top: 80px;
+      padding: 32px 0;
+      border-top: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    footer .links { display: flex; gap: 20px; font-size: 11px; }
+    footer .links a {
+      color: var(--text-dim);
+      text-decoration: none;
+      transition: color 0.15s;
+    }
+    footer .links a:hover { color: var(--accent); }
+    footer .copy { font-size: 10px; color: var(--text-muted); }
+    footer .sys-log {
+      font-size: 10px;
+      color: var(--text-muted);
+      line-height: 1.8;
+    }
 
-        .metric-card {
-            background: var(--panel);
-            padding: 20px;
-        }
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--surface2); border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--border-light); }
 
-        .metric-val {
-            font-size: 24px;
-            color: var(--text-high);
-            display: block;
-        }
+    @media (max-width: 768px) {
+      .hero { flex-direction: column; text-align: center; gap: 24px; }
+      .hero-avatar { width: 90px; height: 90px; }
+      .hero h1 { font-size: 28px; }
+      .hero p { max-width: 100%; }
+      .quick-stats { grid-template-columns: repeat(2, 1fr); }
+      .projects-grid { grid-template-columns: 1fr; }
+      .top-bar-right { display: none; }
+      footer { flex-direction: column; text-align: center; }
+    }
 
-        .metric-label {
-            font-size: 10px;
-            color: var(--text-low);
-            text-transform: uppercase;
-        }
-
-        /* --- Project Grid --- */
-        .section-label {
-            padding: 8px 12px;
-            background: var(--accent);
-            color: var(--bg);
-            display: inline-block;
-            font-weight: bold;
-            margin-bottom: 20px;
-        }
-
-        .repo-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
-            gap: 20px;
-        }
-
-        .repo-card {
-            background: var(--panel);
-            border: 1px solid var(--border);
-            padding: 30px;
-            position: relative;
-            overflow: hidden;
-            transition: all 0.2s ease;
-        }
-
-        .repo-card::before {
-            content: "";
-            position: absolute;
-            top: 0; left: 0; width: 2px; height: 100%;
-            background: var(--accent);
-            transform: scaleY(0);
-            transition: transform 0.2s ease;
-        }
-
-        .repo-card:hover {
-            border-color: var(--accent);
-            transform: translateY(-4px);
-        }
-
-        .repo-card:hover::before {
-            transform: scaleY(1);
-        }
-
-        .repo-id {
-            color: var(--text-low);
-            font-size: 10px;
-            margin-bottom: 8px;
-        }
-
-        .repo-name {
-            color: var(--text-high);
-            font-size: 18px;
-            margin-bottom: 12px;
-            text-decoration: none;
-            display: block;
-        }
-
-        .repo-desc {
-            margin-bottom: 24px;
-            min-height: 45px;
-        }
-
-        .repo-footer {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-top: 1px solid var(--border);
-            padding-top: 15px;
-        }
-
-        .lang-pill {
-            color: var(--accent);
-            background: var(--accent-muted);
-            padding: 2px 8px;
-            font-size: 11px;
-        }
-
-        /* --- System Footer --- */
-        footer {
-            margin-top: 100px;
-            border-top: 1px solid var(--border);
-            padding-top: 40px;
-            display: flex;
-            justify-content: space-between;
-        }
-
-        .sys-log {
-            color: var(--text-low);
-            font-size: 11px;
-        }
-
-        @media (max-width: 850px) {
-            header { grid-template-columns: 1fr; }
-            .metrics { grid-template-columns: repeat(2, 1fr); }
-            .profile-side { flex-direction: row; gap: 20px; text-align: left; }
-            .profile-img { width: 80px; margin-bottom: 0; }
-        }
-    </style>
+    .fade-in {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    .fade-in.visible { opacity: 1; transform: translateY(0); }
+  </style>
 </head>
 <body>
 
-    <div class="container">
-        <div class="top-bar">
-            <span><span class="status-blink"></span>System: Operational</span>
-            <span>Uptime: 2026.04.30.0925</span>
-        </div>
+  <div class="glow-accent"></div>
+  <div class="glow-blue"></div>
 
-        <header>
-            <div class="profile-side">
-                <img src="https://avatars.githubusercontent.com/u/3703613?v=4" alt="12britz" class="profile-img">
-                <div>
-                    <div style="color: var(--text-high); font-weight: bold;">@12BRITZ</div>
-                    <div style="font-size: 10px; color: var(--text-low); margin-top: 5px;">UID: 3703613</div>
-                </div>
-            </div>
-            <div class="hero-main">
-                <div class="glitch-text">> ROOT_ACCESS_GRANTED</div>
-                <h1>12Britz</h1>
-                <p class="subtitle">Specializing in high-performance TUI applications, LLM orchestration, and developer-centric observability tools.</p>
-            </div>
-        </header>
+  <div class="container">
 
-        <div class="metrics">
-            <div class="metric-card">
-                <span class="metric-label">Project Stars</span>
-                <span class="metric-val">24</span>
-            </div>
-            <div class="metric-card">
-                <span class="metric-label">Repositories</span>
-                <span class="metric-val">5</span>
-            </div>
-            <div class="metric-card">
-                <span class="metric-label">Main Stack</span>
-                <span class="metric-val">TS/JS</span>
-            </div>
-            <div class="metric-card">
-                <span class="metric-label">Origin</span>
-                <span class="metric-val">IND_01</span>
-            </div>
-        </div>
-
-        <div class="section-label">ACTIVE_MODULES</div>
-        
-        <div class="repo-grid">
-            
-            <div class="repo-card">
-                <div class="repo-id">#01 // NETWORK_WRAPPER</div>
-                <a href="https://github.com/12britz/zcurl" class="repo-name">zcurl</a>
-                <p class="repo-desc">Beautifuly colored curl alternative with stunning output for terminal.</p>
-                <div class="repo-footer">
-                    <span class="lang-pill">JAVASCRIPT</span>
-                    <span style="color: var(--text-high);">13 ★</span>
-                </div>
-            </div>
-
-            <div class="repo-card">
-                <div class="repo-id">#02 // SYSTEM_PROC</div>
-                <a href="https://github.com/12britz/sysview" class="repo-name">sysview</a>
-                <p class="repo-desc">Terminal system monitor — CPU, memory, disk, ports, network & processes.</p>
-                <div class="repo-footer">
-                    <span class="lang-pill">TYPESCRIPT</span>
-                    <span style="color: var(--text-high);">5 ★</span>
-                </div>
-            </div>
-
-            <div class="repo-card">
-                <div class="repo-id">#03 // LLM_FRAMEWORK</div>
-                <a href="https://github.com/12britz/llmring" class="repo-name">llmring</a>
-                <p class="repo-desc">TypeScript LLM framework for building AI applications.</p>
-                <div class="repo-footer">
-                    <span class="lang-pill">TYPESCRIPT</span>
-                    <span style="color: var(--text-high);">3 ★</span>
-                </div>
-            </div>
-
-            <div class="repo-card">
-                <div class="repo-id">#04 // DEP_SOLVER</div>
-                <a href="https://github.com/12britz/pix" class="repo-name">pix</a>
-                <p class="repo-desc">CLI dependency solver using local AI (Ollama) for pip, npm, Maven.</p>
-                <div class="repo-footer">
-                    <span class="lang-pill">PYTHON</span>
-                    <span style="color: var(--text-high);">2 ★</span>
-                </div>
-            </div>
-
-            <div class="repo-card">
-                <div class="repo-id">#05 // K8S_OPTIMIZER</div>
-                <a href="https://github.com/12britz/loadpilot" class="repo-name">loadpilot</a>
-                <p class="repo-desc">Kubernetes pod config optimizer with JMeter + Ollama AI recommendations.</p>
-                <div class="repo-footer">
-                    <span class="lang-pill">PYTHON</span>
-                    <span style="color: var(--text-high);">1 ★</span>
-                </div>
-            </div>
-
-        </div>
-
-        <div style="margin-top: 80px;">
-            <div class="section-label">CURATED_LISTS</div>
-            
-            <div class="repo-grid">
-                
-                <div class="repo-card">
-                    <div class="repo-id">#06 // AI_GATEWAYS</div>
-                    <a href="https://github.com/12britz/awesome-ai-gateways" class="repo-name">awesome-ai-gateways</a>
-                    <p class="repo-desc">Curated list of AI gateway tools, libraries & resources for LLM routing.</p>
-                    <div class="repo-footer">
-                        <span class="lang-pill">RESOURCE</span>
-                        <span style="color: var(--text-high);">2 ★</span>
-                    </div>
-                </div>
-
-                <div class="repo-card">
-                    <div class="repo-id">#07 // AI_SIDE_PROJECTS</div>
-                    <a href="https://github.com/12britz/awesome-ai-sideprojects" class="repo-name">awesome-ai-sideprojects</a>
-                    <p class="repo-desc">AI-powered side project ideas, starter templates, tools & resources.</p>
-                    <div class="repo-footer">
-                        <span class="lang-pill">RESOURCE</span>
-                        <span style="color: var(--text-high);">0 ★</span>
-                    </div>
-                </div>
-
-                <div class="repo-card">
-                    <div class="repo-id">#08 // TUI_LIST</div>
-                    <a href="https://github.com/12britz/awesome-tui" class="repo-name">awesome-tui</a>
-                    <p class="repo-desc">Browse awesome lists in the terminal with this Python TUI tool.</p>
-                    <div class="repo-footer">
-                        <span class="lang-pill">PYTHON</span>
-                        <span style="color: var(--text-high);">0 ★</span>
-                    </div>
-                </div>
-
-                <div class="repo-card">
-                    <div class="repo-id">#09 // COMPUTER_USE</div>
-                    <a href="https://github.com/12britz/awesome-computer-use" class="repo-name">awesome-computer-use</a>
-                    <p class="repo-desc">139 open-source projects for AI desktop automation and computer use.</p>
-                    <div class="repo-footer">
-                        <span class="lang-pill">RESOURCE</span>
-                        <span style="color: var(--text-high);">0 ★</span>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-
-        <footer>
-            <div class="sys-log">
-                [LOG]: connection established<br>
-                [LOG]: data_stream initialized<br>
-                [LOG]: 12britz core active
-            </div>
-            <div style="text-align: right;">
-                <div style="margin-bottom: 10px;">
-                    <a href="https://github.com/12britz" style="color: var(--accent); text-decoration: none;">GH</a> // 
-                    
-                    <a href="https://www.npmjs.com/settings/12britz/packages" style="color: var(--accent); text-decoration: none;">NPM</a>
-                </div>
-                <div style="font-size: 10px;">© 2026_CORE_SYSTEMS</div>
-            </div>
-        </footer>
+    <!-- ── Top Bar ── -->
+    <div class="top-bar">
+      <div class="top-bar-left">
+        <span class="status-dot"></span>
+        <span style="color: var(--text-dim);">12britz.dev</span>
+        <span style="color: var(--text-muted);">//</span>
+        <span style="color: var(--accent);">SYSTEM_ONLINE</span>
+      </div>
+      <div class="top-bar-right">
+        <span>IST <span id="live-clock">--:--:--</span></span>
+      </div>
     </div>
 
+    <!-- ── Hero ── -->
+    <section class="hero fade-in">
+      <div class="hero-avatar">
+        <img src="https://avatars.githubusercontent.com/u/3703613?v=4" alt="12britz">
+      </div>
+      <div class="hero-content">
+        <div class="hero-badge">// ROOT //</div>
+        <h1>
+          <span class="accent">$</span> whoami &rarr; <span id="typing-text"></span><span class="cursor"></span>
+        </h1>
+        <p>
+          CLI &amp; TUI craftsman building beautiful terminal experiences.
+          DevOps by day, open-source by night. Curating the best AI tools,
+          building colorful CLIs, and pushing pixels in the terminal.
+        </p>
+      </div>
+    </section>
+
+    <!-- ── Stats ── -->
+    <div class="quick-stats fade-in">
+      <div class="quick-stat">
+        <span class="num" id="stat-repos">--</span>
+        <span class="label">Repositories</span>
+      </div>
+      <div class="quick-stat">
+        <span class="num" id="stat-stars">--</span>
+        <span class="label">Total Stars</span>
+      </div>
+      <div class="quick-stat">
+        <span class="num" id="stat-forks">--</span>
+        <span class="label">Forks</span>
+      </div>
+      <div class="quick-stat">
+        <span class="num" id="stat-top">--</span>
+        <span class="label">Top Repo ★</span>
+      </div>
+    </div>
+
+    <!-- ── Terminal ── -->
+    <div class="terminal-window fade-in">
+      <div class="terminal-header">
+        <span class="term-dot red"></span>
+        <span class="term-dot yellow"></span>
+        <span class="term-dot green"></span>
+        <span class="terminal-title">~/session — zsh</span>
+      </div>
+      <div class="terminal-body" id="term-body">
+        <div class="line" style="animation-delay:0.0s"><span class="prompt">➜</span> <span class="cmd">cat /etc/12britz/os-release</span></div>
+        <div class="line" style="animation-delay:0.2s"><span class="output">NAME="12britz"</span></div>
+        <div class="line" style="animation-delay:0.4s"><span class="output">ROLE="DevOps / AI Engineer"</span></div>
+        <div class="line" style="animation-delay:0.6s"><span class="output">LOCATION="India (IST)"</span></div>
+        <div class="line" style="animation-delay:0.8s"><span class="output">STACK="k8s · docker · kafka · ollama · ts · python"</span></div>
+        <div class="line" style="animation-delay:1.0s"><span class="output">VIBE="beautiful terminals · AI tooling · open source"</span></div>
+        <div class="line" style="animation-delay:1.4s"><span class="prompt">➜</span> <span class="cmd">_</span></div>
+      </div>
+    </div>
+
+    <!-- ── Projects ── -->
+    <div class="section-header fade-in">
+      <h2>Projects</h2>
+      <span class="count" id="total-count"></span>
+      <span class="line"></span>
+    </div>
+
+    <div class="section-tabs fade-in" id="tabs">
+      <button class="section-tab active" data-filter="all">All</button>
+      <button class="section-tab" data-filter="cli">CLI / TUI</button>
+      <button class="section-tab" data-filter="lists">Awesome Lists</button>
+      <button class="section-tab" data-filter="ai">AI / LLM</button>
+      <button class="section-tab" data-filter="fork">Forks</button>
+    </div>
+
+    <div class="projects-grid fade-in" id="projects-grid"></div>
+
+    <!-- ── Footer ── -->
+    <footer class="fade-in">
+      <div class="sys-log">
+        [LOG]: session active<br>
+        [LOG]: built with <span style="color:var(--accent)">&#9829;</span> and terminal aesthetics
+      </div>
+      <div class="links">
+        <a href="https://github.com/12britz" target="_blank" rel="noopener">GitHub</a>
+        <a href="https://www.npmjs.com/settings/12britz/packages" target="_blank" rel="noopener">npm</a>
+        <a href="https://github.com/12britz/12britz.github.io" target="_blank" rel="noopener">Source</a>
+      </div>
+      <div class="copy">&copy; 2026 12britz &mdash; built in the terminal</div>
+    </footer>
+
+  </div>
+
+  <script>
+    // ── Repo Data (sourced live from GitHub API, static fallback) ──
+    const repos = [
+      // Own projects
+      { name: 'awesome-free-models',     stars: 1408, lang: null,       url: 'https://github.com/12britz/awesome-free-models',     desc: 'Curated list of free AI models, APIs, and tools you can use without paying a cent.',                                  cat: 'lists' },
+      { name: 'zcurl',                   stars: 16,   lang: 'JavaScript', url: 'https://github.com/12britz/zcurl',                   desc: 'Beautifully colored curl alternative with stunning box-style terminal output.',                                       cat: 'cli' },
+      { name: 'awesome-ai-gateways',     stars: 9,    lang: null,       url: 'https://github.com/12britz/awesome-ai-gateways',     desc: 'Curated list of AI gateway tools, libraries &amp; resources for LLM routing and token management.',                    cat: 'lists' },
+      { name: 'sysview',                 stars: 7,    lang: 'TypeScript', url: 'https://github.com/12britz/sysview',                 desc: 'Beautiful terminal system monitor &mdash; CPU, memory, disk, ports, network &amp; processes.',                          cat: 'cli' },
+      { name: 'awesome-computer-use',    stars: 7,    lang: null,       url: 'https://github.com/12britz/awesome-computer-use',     desc: '139 open-source projects for AI desktop automation and computer use.',                                                 cat: 'lists' },
+      { name: 'awesome-ai-sideprojects', stars: 3,    lang: null,       url: 'https://github.com/12britz/awesome-ai-sideprojects', desc: 'AI-powered side project ideas, starter templates, tools &amp; resources.',                                            cat: 'lists' },
+      { name: 'awesome-tui',             stars: 3,    lang: 'Python',   url: 'https://github.com/12britz/awesome-tui',             desc: 'Browse awesome lists in the terminal with this Python TUI tool.',                                                      cat: 'cli' },
+      { name: 'llmring',                 stars: 3,    lang: 'TypeScript', url: 'https://github.com/12britz/llmring',                 desc: 'TypeScript LLM framework for building AI applications.',                                                             cat: 'ai' },
+      { name: 'pix',                     stars: 2,    lang: 'Python',   url: 'https://github.com/12britz/pix',                     desc: 'CLI dependency solver using local AI (Ollama) for pip, npm, Maven, and Cargo.',                                        cat: 'ai' },
+      { name: 'loadpilot',               stars: 1,    lang: 'Python',   url: 'https://github.com/12britz/loadpilot',               desc: 'Kubernetes pod config optimizer with JMeter + Ollama AI recommendations.',                                              cat: 'ai' },
+      { name: 'zgit',                    stars: 1,    lang: 'JavaScript', url: 'https://github.com/12britz/zgit',                    desc: 'Tokyo Night-themed CLI wrapper for Git that turns raw output into structured visual panels.',                           cat: 'cli' },
+      { name: 'plight',                  stars: 1,    lang: 'JavaScript', url: 'https://github.com/12britz/plight',                  desc: 'Pretty Lighthouse CLI tool with stunning box-style terminal output.',                                                  cat: 'cli' },
+      { name: 'kafka-look',              stars: 0,    lang: 'Python',   url: 'https://github.com/12britz/kafka-look',              desc: 'Powerful TUI for browsing and producing Kafka messages.',                                                              cat: 'cli' },
+      { name: 'ztheme',                  stars: 0,    lang: 'TypeScript', url: 'https://github.com/12britz/ztheme',                  desc: 'Interactive terminal theme changer &mdash; one command, any terminal.',                                                cat: 'cli' },
+      { name: 'themer',                  stars: 0,    lang: 'TypeScript', url: 'https://github.com/12britz/themer',                  desc: 'Interactive terminal theme changer (v1).',                                                                             cat: 'cli' },
+      { name: 'commit-haiku',            stars: 0,    lang: 'Python',   url: 'https://github.com/12britz/commit-haiku',            desc: 'Generates haiku poetry from your git changes &mdash; every commit deserves a poem.',                                   cat: 'cli' },
+      { name: 'code-puppy-cmux-sidebar', stars: 0,    lang: 'Python',   url: 'https://github.com/12britz/code-puppy-cmux-sidebar', desc: 'Code Puppy plugin: live agent activity in the cmux sidebar (status pills, progress, logs).',                            cat: 'ai' },
+      // Forks
+      { name: 'skillshare',              stars: 1,    lang: 'fork',     url: 'https://github.com/12britz/skillshare',              desc: 'Sync skills across AI CLI tools with one command. Forked from original.',                                              cat: 'fork' },
+      { name: 'code_puppy',              stars: 0,    lang: 'fork',     url: 'https://github.com/12britz/code_puppy',              desc: 'Agentic AI for writing code. Fork.',                                                                                   cat: 'fork' },
+      { name: 'Cider-Remote',            stars: 0,    lang: 'fork',     url: 'https://github.com/12britz/Cider-Remote',            desc: 'Control Cider from iPhone/iPad. Fork.',                                                                                cat: 'fork' },
+      { name: 'claude-code',             stars: 0,    lang: 'fork',     url: 'https://github.com/12britz/claude-code',             desc: 'Agentic coding tool that lives in your terminal. Fork.',                                                               cat: 'fork' },
+      { name: 'glow',                    stars: 0,    lang: 'fork',     url: 'https://github.com/12britz/glow',                    desc: 'Render markdown on the CLI, with pizzazz! Fork.',                                                                      cat: 'fork' },
+      { name: 'boot-ui',                 stars: 0,    lang: 'fork',     url: 'https://github.com/12britz/boot-ui',                 desc: 'The missing developer UI for Spring Boot! Fork.',                                                                      cat: 'fork' },
+      { name: 'git-flex',                stars: 0,    lang: 'fork',     url: 'https://github.com/12britz/git-flex',                desc: 'Show off your coding stats in style. Fork.',                                                                           cat: 'fork' },
+      { name: 'Top-AI-repos',            stars: 0,    lang: 'fork',     url: 'https://github.com/12britz/Top-AI-repos',            desc: 'Top 100 most popular open source AI projects. Fork.',                                                                  cat: 'fork' },
+      { name: 'awesome',                 stars: 0,    lang: 'fork',     url: 'https://github.com/12britz/awesome',                 desc: 'Awesome lists about all kinds of interesting topics. Fork.',                                                           cat: 'fork' },
+    ];
+
+    function renderProjects(filter) {
+      const grid = document.getElementById('projects-grid');
+      const filtered = filter === 'all' ? repos : repos.filter(r => r.cat === filter);
+      grid.innerHTML = '';
+      filtered.forEach((r) => {
+        const langClass = (r.lang || 'resource').toLowerCase();
+        const card = document.createElement('div');
+        card.className = 'project-card';
+        card.innerHTML = `
+          <div class="top-row">
+            <a href="${r.url}" class="name" target="_blank" rel="noopener">${r.name}</a>
+            <span class="stars">&#9733; ${r.stars}</span>
+          </div>
+          <div class="desc">${r.desc}</div>
+          <div class="footer">
+            <span class="lang-pill ${langClass}">${r.lang || 'RESOURCE'}</span>
+            ${r.cat === 'fork' ? '<span class="top-star">&#10549; fork</span>' : ''}
+          </div>
+        `;
+        grid.appendChild(card);
+      });
+      document.getElementById('total-count').textContent = filtered.length + ' repos';
+    }
+
+    document.querySelectorAll('.section-tab').forEach(tab => {
+      tab.addEventListener('click', () => {
+        document.querySelectorAll('.section-tab').forEach(t => t.classList.remove('active'));
+        tab.classList.add('active');
+        renderProjects(tab.dataset.filter);
+      });
+    });
+
+    function computeStats() {
+      const owned = repos.filter(r => r.cat !== 'fork');
+      document.getElementById('stat-repos').textContent = owned.length;
+      const totalStars = owned.reduce((s, r) => s + r.stars, 0);
+      document.getElementById('stat-stars').textContent = totalStars;
+      document.getElementById('stat-forks').textContent = repos.filter(r => r.cat === 'fork').length;
+      const topStar = Math.max(...owned.map(r => r.stars));
+      document.getElementById('stat-top').textContent = topStar;
+    }
+
+    // ── Typewriter ──
+    (function typeWriter() {
+      const el = document.getElementById('typing-text');
+      const text = '12britz';
+      let i = 0;
+      function tick() {
+        if (i < text.length) { el.textContent += text[i]; i++; setTimeout(tick, 110); }
+      }
+      setTimeout(tick, 400);
+    })();
+
+    // ── Live IST clock ──
+    function updateClock() {
+      const now = new Date();
+      const ist = new Date(now.getTime() + 5.5 * 60 * 60 * 1000 + now.getTimezoneOffset() * 60 * 1000);
+      document.getElementById('live-clock').textContent = ist.toTimeString().slice(0, 8);
+    }
+    setInterval(updateClock, 1000);
+    updateClock();
+
+    // ── Scroll fade-in ──
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+    // ── Init ──
+    computeStats();
+    renderProjects('all');
+  </script>
 </body>
 </html>
