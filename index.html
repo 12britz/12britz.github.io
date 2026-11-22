@@ -284,6 +284,7 @@
     .badge.javascript { background: rgba(240,219,79,0.1); color: #e8d44d; }
     .badge.typescript { background: rgba(49,120,198,0.1); color: #5b9bd5; }
     .badge.python { background: rgba(55,118,171,0.1); color: #5b9bd5; }
+    .badge.go { background: rgba(0,173,216,0.1); color: #5bc8e8; }
     .badge.resource { background: var(--accent-dim); color: var(--accent); }
     .badge.fork { background: rgba(255,255,255,0.04); color: var(--fg4); border: 1px solid var(--border); }
     .card .fork-tag {
@@ -356,7 +357,7 @@
             <div class="lbl">stars</div>
           </div>
           <div class="count-item">
-            <div class="num" id="s-followers">39</div>
+            <div class="num" id="s-followers">64</div>
             <div class="lbl">followers</div>
           </div>
         </div>
@@ -366,9 +367,9 @@
     <!-- About -->
     <div class="about">
       <p>
-        Python and JavaScript developer building CLI/TUI tools, AI infrastructure,
+        Python, Go and TypeScript developer building CLI/TUI tools, AI infrastructure,
         and curated open-source resources. Creator of <strong style="color:var(--fg2);font-weight:500;">awesome-free-models</strong>
-        (1400+ ★), <strong style="color:var(--fg2);font-weight:500;">zcurl</strong>, and <strong style="color:var(--fg2);font-weight:500;">sysview</strong>.
+        (2.6k+ ★), <strong style="color:var(--fg2);font-weight:500;">zcurl</strong>, and <strong style="color:var(--fg2);font-weight:500;">sysview</strong>.
         DevOps engineer by trade, terminal aesthetic enthusiast by choice.
       </p>
       <div class="tags">
@@ -377,8 +378,11 @@
         <span class="tag">Open Source</span>
         <span class="tag">DevOps</span>
         <span class="tag">k8s</span>
+        <span class="tag">Kafka</span>
+        <span class="tag">Ollama</span>
         <span class="tag">Python</span>
         <span class="tag">TypeScript</span>
+        <span class="tag">Go</span>
       </div>
     </div>
 
@@ -388,9 +392,13 @@
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
         GitHub
       </a>
-      <a href="https://www.npmjs.com/settings/12britz/packages" target="_blank" rel="noopener">
+      <a href="https://www.npmjs.com/~12britz" target="_blank" rel="noopener">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg>
         npm
+      </a>
+      <a href="https://www.linkedin.com/in/12britz" target="_blank" rel="noopener">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5zM3 9h4v12H3zM9 9h3.8v1.7h.05c.53-1 1.83-2.05 3.77-2.05 4.03 0 4.78 2.65 4.78 6.1V21h-4v-5.4c0-1.3-.02-2.97-1.8-2.97-1.8 0-2.08 1.4-2.08 2.87V21H9z"/></svg>
+        LinkedIn
       </a>
       <a href="mailto:britz.dev@proton.me">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
@@ -421,6 +429,8 @@
       <div class="links">
         <a href="https://github.com/12britz" target="_blank" rel="noopener">GitHub</a>
         <a href="https://github.com/12britz?tab=repositories" target="_blank" rel="noopener">Repositories</a>
+        <a href="https://www.npmjs.com/~12britz" target="_blank" rel="noopener">npm</a>
+        <a href="https://www.linkedin.com/in/12britz" target="_blank" rel="noopener">LinkedIn</a>
       </div>
       <div class="copy">&copy; 2026 &middot; @12britz</div>
     </footer>
@@ -428,12 +438,12 @@
 
   <script>
     const repos = [
-      { n: 'awesome-free-models',     s: 1408, l: null,     u: 'https://github.com/12britz/awesome-free-models',     d: 'Curated list of free AI models, APIs, and tools you can use without paying a cent.',                              c: 'lists' },
+      { n: 'awesome-free-models',     s: 2668, l: null,     u: 'https://github.com/12britz/awesome-free-models',     d: 'Curated list of free AI models, APIs, and tools you can use without paying a cent.',                              c: 'lists' },
       { n: 'zcurl',                   s: 16,   l: 'JavaScript', u: 'https://github.com/12britz/zcurl',                   d: 'Beautifully colored curl alternative with stunning box-style terminal output.',                                 c: 'cli' },
-      { n: 'awesome-ai-gateways',     s: 9,    l: null,     u: 'https://github.com/12britz/awesome-ai-gateways',     d: 'Managing 100+ LLM APIs, rate limits, fallbacks, and token costs. Curated AI gateway tools.',                     c: 'lists' },
+      { n: 'awesome-ai-gateways',     s: 12,   l: null,     u: 'https://github.com/12britz/awesome-ai-gateways',     d: 'Managing 100+ LLM APIs, rate limits, fallbacks, and token costs. Curated AI gateway tools.',                     c: 'lists' },
       { n: 'sysview',                 s: 7,    l: 'TypeScript', u: 'https://github.com/12britz/sysview',                 d: 'Terminal system monitor — CPU, memory, disk, ports, network & processes with colorful tables.',                c: 'cli' },
-      { n: 'awesome-computer-use',    s: 7,    l: null,     u: 'https://github.com/12britz/awesome-computer-use',     d: '139 open-source projects for AI desktop automation and computer use.',                                           c: 'lists' },
-      { n: 'awesome-ai-sideprojects', s: 3,    l: null,     u: 'https://github.com/12britz/awesome-ai-sideprojects', d: 'AI-powered side project ideas, starter templates, tools & resources.',                                          c: 'lists' },
+      { n: 'awesome-computer-use',    s: 21,   l: null,     u: 'https://github.com/12britz/awesome-computer-use',     d: '139 open-source projects for AI desktop automation and computer use.',                                           c: 'lists' },
+      { n: 'awesome-ai-sideprojects', s: 5,    l: null,     u: 'https://github.com/12britz/awesome-ai-sideprojects', d: 'AI-powered side project ideas, starter templates, tools & resources.',                                          c: 'lists' },
       { n: 'awesome-tui',             s: 3,    l: 'Python', u: 'https://github.com/12britz/awesome-tui',             d: 'Browse awesome lists in the terminal with this Python TUI tool.',                                               c: 'cli' },
       { n: 'llmring',                 s: 3,    l: 'TypeScript', u: 'https://github.com/12britz/llmring',                 d: 'TypeScript LLM framework for building AI applications.',                                                        c: 'ai' },
       { n: 'pix',                     s: 2,    l: 'Python', u: 'https://github.com/12britz/pix',                     d: 'CLI dependency solver using local AI (Ollama) for pip, npm, Maven, and Cargo.',                                 c: 'ai' },
@@ -443,24 +453,38 @@
       { n: 'kafka-look',              s: 0,    l: 'Python', u: 'https://github.com/12britz/kafka-look',              d: 'Powerful TUI for browsing and producing Kafka messages.',                                                        c: 'cli' },
       { n: 'ztheme',                  s: 0,    l: 'TypeScript', u: 'https://github.com/12britz/ztheme',                  d: 'Interactive terminal theme changer — one command, any terminal.',                                               c: 'cli' },
       { n: 'themer',                  s: 0,    l: 'TypeScript', u: 'https://github.com/12britz/themer',                  d: 'Interactive terminal theme changer (v1).',                                                                      c: 'cli' },
+      { n: 'rove',                    s: 0,    l: 'Go',     u: 'https://github.com/12britz/rove',                    d: 'One command to launch any installed AI CLI agent, with a color-coded picker.',                                  c: 'cli' },
+      { n: 'awesome-ide-plugins',     s: 0,    l: null,     u: 'https://github.com/12britz/awesome-ide-plugins',     d: 'Curated VSCode extensions and IntelliJ plugins, picked from 2026 community rankings.',                          c: 'lists' },
+      { n: 'awesome-hero-banner',     s: 0,    l: 'JavaScript', u: 'https://github.com/12britz/awesome-hero-banner', d: 'Hero banner designs with ready-made presets and a generator tool.',                                            c: 'lists' },
       { n: 'commit-haiku',            s: 0,    l: 'Python', u: 'https://github.com/12britz/commit-haiku',            d: 'Generates haiku poetry from your git changes — every commit deserves a poem.',                                  c: 'cli' },
       { n: 'code-puppy-cmux-sidebar', s: 0,    l: 'Python', u: 'https://github.com/12britz/code-puppy-cmux-sidebar', d: 'Code Puppy plugin: live agent activity in the cmux sidebar (status pills, progress, logs).',                    c: 'ai' },
       { n: 'skillshare',              s: 1,    l: 'fork',   u: 'https://github.com/12britz/skillshare',              d: 'Sync skills across AI CLI tools with one command. Fork.',                                                       c: 'fork' },
+      { n: 'Top-AI-repos',            s: 1,    l: 'fork',   u: 'https://github.com/12britz/Top-AI-repos',            d: 'Top 100 most popular open source AI projects. Fork.',                                                           c: 'fork' },
+      { n: 'pandas',                  s: 0,    l: 'fork',   u: 'https://github.com/12britz/pandas',                  d: 'Flexible data analysis and manipulation library for Python. Fork.',                                             c: 'fork' },
+      { n: 'ragflow',                 s: 0,    l: 'fork',   u: 'https://github.com/12britz/ragflow',                 d: 'Open-source RAG engine fusing RAG with agent capabilities. Fork.',                                              c: 'fork' },
+      { n: 'pydantic-ai',             s: 0,    l: 'fork',   u: 'https://github.com/12britz/pydantic-ai',             d: 'Python agent framework: agents, voice, images, embeddings. Fork.',                                              c: 'fork' },
+      { n: 'pydantic-ai-harness',     s: 0,    l: 'fork',   u: 'https://github.com/12britz/pydantic-ai-harness',     d: 'Agent harness built on Pydantic AI. Fork.',                                                                    c: 'fork' },
+      { n: 'code_puppy_core_plugins', s: 0,    l: 'fork',   u: 'https://github.com/12britz/code_puppy_core_plugins', d: 'Official plugin bundle for Code Puppy. Fork.',                                                                c: 'fork' },
+      { n: 'opencode',                s: 0,    l: 'fork',   u: 'https://github.com/12britz/opencode',                d: 'The open source coding agent. Fork.',                                                                          c: 'fork' },
+      { n: 'gac',                     s: 0,    l: 'fork',   u: 'https://github.com/12britz/gac',                     d: 'LLM-powered git commit message generator. Fork.',                                                              c: 'fork' },
+      { n: 'cookbook',                s: 0,    l: 'fork',   u: 'https://github.com/12britz/cookbook',                d: 'Cursor cookbook — recipes and patterns. Fork.',                                                                c: 'fork' },
       { n: 'code_puppy',              s: 0,    l: 'fork',   u: 'https://github.com/12britz/code_puppy',              d: 'Agentic AI for writing code. Fork.',                                                                            c: 'fork' },
       { n: 'Cider-Remote',            s: 0,    l: 'fork',   u: 'https://github.com/12britz/Cider-Remote',            d: 'Control Cider from iPhone/iPad. Fork.',                                                                         c: 'fork' },
       { n: 'claude-code',             s: 0,    l: 'fork',   u: 'https://github.com/12britz/claude-code',             d: 'Agentic coding tool in your terminal. Fork.',                                                                   c: 'fork' },
       { n: 'glow',                    s: 0,    l: 'fork',   u: 'https://github.com/12britz/glow',                    d: 'Render markdown on the CLI. Fork.',                                                                             c: 'fork' },
       { n: 'boot-ui',                 s: 0,    l: 'fork',   u: 'https://github.com/12britz/boot-ui',                 d: 'The missing developer UI for Spring Boot! Fork.',                                                               c: 'fork' },
       { n: 'git-flex',                s: 0,    l: 'fork',   u: 'https://github.com/12britz/git-flex',                d: 'Show off your coding stats in style. Fork.',                                                                    c: 'fork' },
-      { n: 'Top-AI-repos',            s: 0,    l: 'fork',   u: 'https://github.com/12britz/Top-AI-repos',            d: 'Top 100 most popular open source AI projects. Fork.',                                                           c: 'fork' },
       { n: 'awesome',                 s: 0,    l: 'fork',   u: 'https://github.com/12britz/awesome',                 d: 'Awesome lists about all kinds of interesting topics. Fork.',                                                    c: 'fork' },
     ];
 
-    const owned = repos.filter(r => r.c !== 'fork');
-    document.getElementById('s-repos').textContent = owned.length;
-    document.getElementById('s-stars').textContent = owned.reduce((a, r) => a + r.s, 0);
+    // Fallback totals, shown until the GitHub API responds (snapshot 2026-11-22)
+    document.getElementById('s-repos').textContent = 39;
+    document.getElementById('s-stars').textContent = 2742;
+
+    let filter = 'all';
 
     function render(f) {
+      filter = f;
       const grid = document.getElementById('grid');
       const filtered = f === 'all' ? repos : repos.filter(r => r.c === f);
       grid.innerHTML = '';
@@ -492,6 +516,41 @@
     });
 
     render('all');
+
+    // Refresh followers, repo count and every card's star count from the GitHub
+    // API so the page never goes stale. Unauthenticated calls are rate limited
+    // per visitor, so on any failure the fallback numbers above stay in place.
+    (async () => {
+      const set = (id, v) => {
+        const el = document.getElementById(id);
+        if (el && typeof v === 'number') el.textContent = v;
+      };
+
+      try {
+        const res = await fetch('https://api.github.com/users/12britz');
+        if (res.ok) {
+          const user = await res.json();
+          set('s-repos', user.public_repos);
+          set('s-followers', user.followers);
+        }
+      } catch (e) { /* keep fallbacks */ }
+
+      try {
+        const res = await fetch('https://api.github.com/users/12britz/repos?per_page=100');
+        if (!res.ok) return;
+        const list = await res.json();
+        if (!Array.isArray(list)) return;
+        const stars = {};
+        list.forEach(r => { stars[r.name] = r.stargazers_count; });
+        let total = 0;
+        repos.forEach(r => {
+          if (typeof stars[r.n] === 'number') r.s = stars[r.n];
+          total += r.s;
+        });
+        set('s-stars', total);
+        render(filter);
+      } catch (e) { /* keep fallbacks */ }
+    })();
   </script>
 </body>
 </html>
