@@ -519,7 +519,8 @@
     display: flex;
     align-items: baseline;
     justify-content: space-between;
-    gap: 12px;
+    flex-wrap: wrap;
+    gap: 4px 12px;
   }
   .card-name {
     font-family: var(--display);
@@ -585,45 +586,6 @@
   }
   .act .what a:hover { color: var(--accent); border-color: var(--accent-line); }
   .act-empty { padding: 18px 2px; color: var(--fg-3); font-size: 14px; }
-
-  /* ── Contact ────────────────────────────────────────── */
-  .contact {
-    padding-block: clamp(64px, 9vw, 112px) 0;
-  }
-  .contact-inner {
-    border: 1px solid var(--line);
-    border-radius: var(--radius);
-    padding: clamp(32px, 5vw, 60px);
-    background:
-      radial-gradient(70% 120% at 12% 0%, rgba(200, 241, 53, 0.08), transparent 60%),
-      var(--surface);
-    text-align: center;
-  }
-  .contact h2 {
-    font-family: var(--display);
-    font-size: clamp(1.7rem, 4vw, 2.6rem);
-    font-weight: 600;
-    letter-spacing: -0.03em;
-    line-height: 1.1;
-    text-wrap: balance;
-  }
-  .contact p {
-    margin: 14px auto 0;
-    max-width: 46ch;
-    color: var(--fg-2);
-    font-size: 15px;
-  }
-  .contact .hero-actions { justify-content: center; margin-top: 28px; }
-  .contact .mail {
-    font-family: var(--mono);
-    font-size: clamp(0.95rem, 2.4vw, 1.25rem);
-    color: var(--fg);
-    border-bottom: 1px solid var(--accent-line);
-    padding-bottom: 3px;
-    transition: color 0.18s var(--ease);
-    word-break: break-all;
-  }
-  .contact .mail:hover { color: var(--accent); }
 
   /* ── Footer ─────────────────────────────────────────── */
   footer {
@@ -708,7 +670,6 @@
       <a href="#work">Work</a>
       <a href="#projects">Projects</a>
       <a href="#activity">Activity</a>
-      <a href="#contact">Contact</a>
     </nav>
     <a class="chip-status" href="https://github.com/12britz" target="_blank" rel="noopener">
       <span class="dot" aria-hidden="true"></span> Active on GitHub
@@ -842,20 +803,6 @@
     <div class="activity" id="act-list"></div>
   </section>
 
-  <section class="wrap contact" id="contact">
-    <div class="contact-inner reveal">
-      <h2>Something worth building?</h2>
-      <p>I like hard problems in terminals, pipelines and agent tooling. The fastest way in is email.</p>
-      <div class="hero-actions">
-        <a class="mail" href="mailto:britz.dev@proton.me">britz.dev@proton.me</a>
-      </div>
-      <div class="hero-actions">
-        <a class="btn" href="https://github.com/12britz" target="_blank" rel="noopener">GitHub</a>
-        <a class="btn" href="https://www.linkedin.com/in/12britz" target="_blank" rel="noopener">LinkedIn</a>
-        <a class="btn" href="https://www.npmjs.com/~12britz" target="_blank" rel="noopener">npm</a>
-      </div>
-    </div>
-  </section>
 </main>
 
 <footer>
